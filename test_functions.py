@@ -3,8 +3,6 @@ from math import exp
 
 import matplotlib.pyplot as plt
 
-# Gegenbauer polynomials
-
 # density:
 
 M_bar = 2.0*10**10 #M_sun
@@ -25,14 +23,35 @@ def rho(r_1, r_2):
     for i in range(len(r_1)):
         lrho.append(rho_0*(exp(-r_1[i]**2/2.) + r_2[i]**(-1.85)*exp(-r_2[i])))
     return(lrho)     
-    #return(rho_0*(exp(-r_1**2/2.) + r_2**(-1.85)*exp(-r_2)))
 
-x = np.linspace(0.1, 10., 100)
-y = np.linspace(0.1, 10., 100)
+x = np.linspace(0.1, 10.1, 21)
+y = np.linspace(0.1, 10.1, 21)
 z = np.zeros(len(x))
+'''
+for i in range(10):
+    plt.plot(x, rho(r_1(x,y,z+i/10), r_2(x,y,z+i/10)))
+'''
+# Gegenbauer polynomials
 
-r1 = r_1(x,y,z)
-r2 = r_2(x,y,z)
+# Legendre polynomials:
+'''
+def legendrepoly(n, x):
+    if n == 0:
+        return([1 for _ in range(len(x))])
+    elif n == 1:
+        return(x)
+    else:
+        return((2*n + 1)/(n + 1)*x*legendrepoly(n-1,x) - n/(n+1)*legendrepoly(n-2,x))
+#Px[n+1] = (2*n + 1)/(n + 1)*x*P[n] - n/(n+1)*P[n-1]
 
-plt.plot(rho(r1, r2), x)
+
+print(legendrepoly(0,x))
+print(legendrepoly(1,x))
+print(legendrepoly(2,x))
+
+for i in range(5):
+    plt.plot(x, legendrepoly(i,x))
+
+'''
+
 plt.show()
