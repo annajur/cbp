@@ -1,12 +1,11 @@
 ######################################################################
-# vzorec pro phi 
-# pozor na import numpy!!
-# i pres import division pouzivam notaci s teckami pro normalni deleni
-#
+# Numpy imported as np!!
+# Even I have imported the division from __future__, I still use dots to
+#   force the result in float data type 
 #
 #
 ######################################################################
-import numpy as nu
+import numpy as np
 from __future__ import division
 from galpy.potential_src.Potential import Potential, kms_to_kpcGyrDecorator, \
     _APY_LOADED
