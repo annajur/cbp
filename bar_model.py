@@ -18,7 +18,6 @@ class MWBarPotential(Potential):
         
     '''
     
-    
 def __init__(self, amp=1.,.,):
 
 
