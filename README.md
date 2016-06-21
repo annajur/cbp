@@ -6,3 +6,6 @@ http://galpy.readthedocs.io/en/latest/potential.html#adding-potentials-to-the-ga
 
 galpy on github:
 https://github.com/jobovy/galpy
+
+galpy documenation:
+https://media.readthedocs.org/pdf/galpy/v0.1/galpy.pdf
