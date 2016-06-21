@@ -106,19 +106,19 @@ class MWBarPotential(Potential):
 
     ##########
     def Knl(n,l):
-        print('now in Knl')
+        #print('now in Knl')
         return 0.5*n*(n + 4*l + 3) + (l + 1)*(2*l + 1)
 
     def Inl(n,l,m):
-        print('now in Inl')
+        #print('now in Inl')
         if m<=l:
             return(Knl(n,l)*1/(2**(8*l + 6))*gamma(n + 4*l + 3)/(factorial(n)*(n + 2*l + 3/2) *\
                 (gamma(2*l + 3/2))**2 )*(1 + diracdelta(m,0))*np.pi*2/(2*l + 1)*(factorial(l + m)/factorial(l - m)))
         else:
             return 'm must be smaller or equal to l' # just a temporary 'solution' for bad input
 
-    def Phinlm(n,l,m,r,z,phi):
-        print('now in Phinlm')
+    def Phinlm(self, n,l,m,r,z,phi):
+        #print('now in Phinlm')
         r, theta = transform(rho = r, z = z)
         s = r/1. # 1. is in kpc!!!!!
         return s**l/((1 + s)**(2*l + 1))*eval_gegenbauer(n, 2*l + 3/2, (s - 1)/(s + 1))*np.cos(m*phi)*lpmv(m, l, np.cos(theta))
@@ -141,11 +141,11 @@ class MWBarPotential(Potential):
             2016-06-20 - Started - Juranova (MU)
         """
         # the constant (GM_{bar}/r_s) is set to one... but is that correct...? Now I don't think so...
-        print('now in _evaluate')
+        #print('now in _evaluate')
         Phi = 0
         for i in range(len(Anlm)):
-            print(Anlm[i,0], Anlm[i,1], Anlm[i,2], R, z, phi)
-            print(type(Anlm[i,0]), type(Anlm[i,1]), type(Anlm[i,2]), type(R), type(z), type(phi))
+            #print(Anlm[i,0], Anlm[i,1], Anlm[i,2], R, z, phi)
+            #print(type(Anlm[i,0]), type(Anlm[i,1]), type(Anlm[i,2]), type(R), type(z), type(phi))
             Phi += Anlm[i,3]*self.Phinlm(Anlm[i,0], Anlm[i,1], Anlm[i,2], R, z, phi)
         return Phi
 '''
