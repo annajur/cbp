@@ -2,10 +2,10 @@ import matplotlib.pyplot as plt
 from astropy import units
 from galpy.potential import plotPotentials
 
-from bar_model import MWBarPotential as MWBP
+from FerrersPotential import FerrersPotential as FP
 from template import MiyamotoNagaiPotential as MNP
 
-mwbp = MWBP()
+fp = FP()
 mnp = MNP()
 
-plotPotentials(mwbp)
+plotPotentials(fp)
