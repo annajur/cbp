@@ -14,10 +14,10 @@
 \author{Anna Juranova}
 \title{Ferrers Potential in galpy}
 
-% Tecky za cisly sekci:
+% Dots following numbers of section:
 \renewcommand{\thesection}{\arabic{section}.}
 \renewcommand{\thesubsection}{\thesection\arabic{subsection}.}
-% Jednopismenna mezera mezi cislem a nazvem kapitoly:
+% Only one letter wide space between the number and the title of the chapter:
 \makeatletter \def\@seccntformat#1{\csname the#1\endcsname\hspace{1ex}} \makeatother
 
 \lstdefinestyle{customc}{
@@ -52,13 +52,13 @@
            $ n $ -- Power of Ferrers density ($ n > 0 $), not necessarilly integer, calculations generally fail for $ n > 4 $\\
            $ b $ -- y-to-x axis ratio of the density, usually $ b < a $\\
            $ c $ -- z-to-x axis ratio of the density, usually $ c < b $\\
-           $ \Omega_b $ -- pattern speed of the bar, $ \vec{\Omega}_b = \hat{e}_z\,\Omega_b $\\
+           $ \Omega_b $ -- pattern speed of the bar, $ \vec{\Omega}_b = \hat{e}_z\,\Omega_b $ - not included in the code yet!\\
            $ \mathrm{zvec} $ -- If set, a unit vector that corresponds to the z axis\\
            $ \mathrm{pa} $ -- If set, the position angle of the x axis (rad or Quantity)\\
            $ \mathrm{glorder} $ -- If set, compute the relevant force and potential integrals with Gaussian quadrature of this order\\
            normalize -- if True, normalize such that $ v_c(1.,0.)=1. $, or, if given as a number, such that the force is this fraction of the force necessary to make $ v_c(1.,0.)=1. $.\\
            $ r_0 $, $ v_0 $ -- Distance and velocity scales for translation into internal units (default from configuration file)\\
-	
+           Variables $ \alpha $	appearing in the code in form $ \_\alpha2 $ carry the value of $ \alpha^2 $ initialized in the begining of the class \_\_init\_\_ function.
 
 	\section{Functions}
 	(... those I have written so far, all for time-independent potential in a frame of reference which is aligned with axes of the potential)
@@ -110,6 +110,10 @@
 		% SECOND DERIVATIVE
 		\subsection{General Second Derivative}
 			Purpose: General 2nd derivative of the potential as a function of (x,y,z) in the aligned coordinate frame \\
+		\begin{equation}
+		\Phi_{\mathrm{ij}} = -\frac{1}{4}\,b\,c \,\Phi'_{\mathrm{ij}}	
+		\end{equation}
+			
 			\lstinputlisting[language=Python, firstline=425, lastline=426]{FerrersPotential.py}
 	
 	
@@ -143,14 +147,14 @@
 			\noindent The derivative is generally $ \pdv{\Phi}{x_i}{x_j} $; for $ i==j $ the integral to be evaluated is: 
 			
 		\begin{equation}
-		\int_{0}^{\infty} 
+		\Phi'_{\mathrm{ii}} = \int_{0}^{\infty} 
 		 \frac{4\,n\,x_i^2}{(\tau + a_i^2)^2} \frac{\left(1- \sum_{i=1}^{3} \frac{x_i^2}{\tau + a_i^2}\right)^{n-1}}{[(\tau + a^2)](\tau + a^2b^2)(\tau + a^2c^c)]^\frac{1}{2}}
-		- \frac{2}{\tau + a_i^2} \frac{\left(1- \sum_{i=1}^{3} \frac{x_i^2}{\tau + a_i^2}\right)^{n}}{[(\tau + a^2)](\tau + a^2b^2)(\tau + a^2c^c)]^\frac{1}{2}} \mathrm{d}\tau
+		- \frac{2}{\tau + a_i^2} \frac{\left(1- \sum_{i=1}^{3} \frac{x_i^2}{\tau + a_i^2}\right)^{n}}{[(\tau + a^2)](\tau + a^2b^2)(\tau + a^2c^c)]^\frac{1}{2}} \mathrm{d}\,\tau
 		\end{equation}
 		
-			In all other cases, the integral has this form:
+			\noindent In all other cases, the integral has this form:
 		\begin{equation}
-		\int_{0}^{\infty} 
+		\Phi'_{\mathrm{ij}} = \int_{0}^{\infty} 
 		\frac{4\,n\,x_i\,x_j}{(\tau + a_i^2)(\tau + a_j^2)} \frac{\left(1- \sum_{i=1}^{3} \frac{x_i^2}{\tau + a_i^2}\right)^{n-1}}{[(\tau + a^2)](\tau + a^2b^2)(\tau + a^2c^c)]^\frac{1}{2}} \mathrm{d}\tau
 		\end{equation}	
 			
