@@ -18,40 +18,72 @@ if _APY_LOADED:
 
 class FerrersPotential(Potential):
     """Class that implements triaxial Ferrers potentials
+
     .. math::
+
         \\rho(x,y,z) = \\frac{\\mathrm{amp}}{4\\,\\pi\\,a^3}\\,(1-(m/a)^2)^n
+
     with
+
     .. math::
+   
         m^2 = x'^2 + \\frac{y'^2}{b^2}+\\frac{z'^2}{c^2}
-    and :math:`(x',y',z')` is a rotated frame wrt :math:`(x,y,z)` specified by parameters ``zvec`` and ``pa`` which specify (a) ``zvec``: the location of the :math:`z'` axis in the :math:`(x,y,z)` frame and (b) ``pa``: the position angle of the :math:`x'` axis wrt the :math:`\\tilde{x}` axis, that is, the :math:`x` axis after rotating to ``zvec``.
+   
+    and :math:`(x',y',z')` is a rotated frame wrt :math:`(x,y,z)` specified by parameters ``zvec`` and ``pa`` which specify (a) ``zvec``: the location of the :math:`z'` axis in the :math:`(x,y,z)` frame and (b) ``pa``: the position angle of the :math:`x'` axis wrt the :math:`\\tilde{x}` axis, that 
+    is, the :math:`x` axis after rotating to ``zvec``.
     """
-    def __init__(self,amp=1.,a=5.,n=2,b=1.,c=1.,
+    
+    def __init__(self,amp=1.,a=5.,n=2,b=1.,c=1.,omegab=0.65,
                  zvec=None,pa=None,glorder=50,
                  normalize=False,ro=None,vo=None):
         """
         NAME:
+
            __init__
+
         PURPOSE:
+
            initialize a triaxial two-power-density potential
+        
         INPUT:
+        
            amp - amplitude to be applied to the potential (default: 1); can be a Quantity with units of mass or Gxmass
+        
            a - scale radius (can be Quantity)
+        
            n - power of Ferrers density (n > 0)
+        
            b - y-to-x axis ratio of the density
+        
            c - z-to-x axis ratio of the density
+
+           omegab - rotation speed of the bar (can be Quantity) ========================== added ========================
+        
            zvec= (None) If set, a unit vector that corresponds to the z axis
+        
            pa= (None) If set, the position angle of the x axis (rad or Quantity)
+        
            glorder= (50) if set, compute the relevant force and potential integrals with Gaussian quadrature of this order
+        
            normalize - if True, normalize such that vc(1.,0.)=1., or, if given as a number, such that the force is this fraction of the force necessary to make vc(1.,0.)=1.
+        
            ro=, vo= distance and velocity scales for translation into internal units (default from configuration file)
+        
         OUTPUT:
+        
            (none)
+        
         HISTORY:
+        
            2016-06-30 - Started - Semyeong Oh
+        
         """
         Potential.__init__(self,amp=amp,ro=ro,vo=vo,amp_units='mass')
         if _APY_LOADED and isinstance(a,units.Quantity):
             a= a.to(units.kpc).value/self._ro
+        if _APY_LOADED and isinstance(omegab,units.Quantity): #===================== copied from Dehnen bar potential ========================
+            omegab= omegab.to(units.km/units.s/units.kpc).value\
+                /bovy_conversion.freq_in_kmskpc(self._vo,self._ro)
         self.a= a
         self._scale= self.a
         if n <= 0:
@@ -59,6 +91,7 @@ class FerrersPotential(Potential):
         self.n= n
         self._b= b
         self._c= c
+        self._omegab= omegab
         self._a2 = self.a**2
         self._b2= self._b**2.
         self._c2= self._c**2.
@@ -134,10 +167,10 @@ class FerrersPotential(Potential):
             xyzp= numpy.dot(self._rot,numpy.array([x,y,z]))
             return self._evaluate_xyz(xyzp[0],xyzp[1],xyzp[2])
 
-    def _evaluate_xyz(self,x,y,z): #TODO ok
+    def _evaluate_xyz(self,x,y,z): #TODO ok + omegab
         """Evaluation of the potential as a function of (x,y,z) in the 
         aligned coordinate frame"""
-        return -1/4/(self.n+1)*self._b*self._c*_potInt(x,y,z,self._a2,self._b2,self._c2,self.n,glx=self._glx,glw=self._glw)
+        return -1/4/(self.n+1)*self._b*self._c*_potInt(x,y,z,self._a2,self._b2,self._c2,self.n,glx=self._glx,glw=self._glw)-1/2*(x**2 + y**2)*self._omegab**2
 
     def _Rforce(self,R,z,phi=0.,t=0.):
         """
@@ -268,17 +301,17 @@ class FerrersPotential(Potential):
             Fz= Fxyz[2]
         return Fz
 
-    def _xforce_xyz(self,x,y,z): #TODO ok
+    def _xforce_xyz(self,x,y,z): #TODO ok + omegab
         """Evaluation of the x force as a function of (x,y,z) in the aligned
         coordinate frame"""
-        return 1/2*self._b*self._c*_forceInt(x,y,z,self._a2,self._b2,self._c2,0,self.n,glx=self._glx,glw=self._glw)         
+        return 1/2*self._b*self._c*_forceInt(x,y,z,self._a2,self._b2,self._c2,0,self.n,glx=self._glx,glw=self._glw) - x*self._omegab**2   
             
-    def _yforce_xyz(self,x,y,z): #TODO ok
+    def _yforce_xyz(self,x,y,z): #TODO ok + omegab
         """Evaluation of the y force as a function of (x,y,z) in the aligned
         coordinate frame"""
-        return 1/2*self._b*self._c*_forceInt(x,y,z,self._a2,self._b2,self._c2,1,self.n,glx=self._glx,glw=self._glw)  
+        return 1/2*self._b*self._c*_forceInt(x,y,z,self._a2,self._b2,self._c2,1,self.n,glx=self._glx,glw=self._glw) - y*self._omegab**2
 
-    def _zforce_xyz(self,x,y,z): #TODO ok
+    def _zforce_xyz(self,x,y,z): #TODO ok (+ omegab)
         """Evaluation of the z force as a function of (x,y,z) in the aligned
         coordinate frame"""
         return 1/2*self._b*self._c*_forceInt(x,y,z,self._a2,self._b2,self._c2,2,self.n,glx=self._glx,glw=self._glw)  
@@ -418,12 +451,16 @@ class FerrersPotential(Potential):
             (phiyy-phixx)+R*numpy.cos(2.*phi)*phixy\
             +numpy.sin(phi)*Fx-numpy.cos(phi)*Fy
 
-    def _2ndderiv_xyz(self,x,y,z,i,j): #TODO ok
+    def _2ndderiv_xyz(self,x,y,z,i,j): #TODO ok + omegab
         """General 2nd derivative of the potential as a function of (x,y,z)
-        in the aligned coordinate frame"""                          
-        return -1/4*self._b*self._c*_2ndDerivInt(x,y,z,self._a2,self._b2,self._c2,i,j,self.n,glx=self._glx,glw=self._glw)
+        in the aligned coordinate frame"""
+        if i==j:
+            coef = -self._omegab**2*(i==0 or i==1)
+        else:
+            coef = -1/2*self._omegab**2*(2*x*(i==0 or j==0) + 2*y*(i==1 or j==1))                         
+        return -1/4*self._b*self._c*_2ndDerivInt(x,y,z,self._a2,self._b2,self._c2,i,j,self.n,glx=self._glx,glw=self._glw) + coef
         
-    def _dens(self,R,z,phi=0.,t=0.):
+    def _dens(self,R,z,phi=0.,t=0.): #TODO ok + omegab
         """
         NAME:
            _dens
@@ -445,9 +482,8 @@ class FerrersPotential(Potential):
         else:
             xyzp= numpy.dot(self._rot,numpy.array([x,y,z]))
             xp, yp, zp= xyzp[0], xyzp[1], xyzp[2]
-        #TODO
         m2 = xp**2.+yp**2./self._b2+zp**2./self._c2
-        return 1/(4*numpy.pi*self.a**3)*(1-m2/self.a**2)**self.n
+        return 1/(4*numpy.pi*self.a**3)*(1-m2/self.a**2)**self.n-2*self._omegab**2
 
     def OmegaP(self):
         """
@@ -462,12 +498,12 @@ class FerrersPotential(Potential):
         HISTORY:
            2016-05-31 - Written - Bovy (UofT)
         """
-        return 0.
+        return self._omegab
 
 
 
 
-def _potInt(x,y,z,a2,b2,c2,n,glx=None,glw=None): #TODO ok
+def _potInt(x,y,z,a2,b2,c2,n,glx=None,glw=None): #TODO ok (+ omegab)
     def integrand(tau):
         return _FracInt(x,y,z,a2,b2,c2,tau,n + 1)
     if glx is None:
@@ -475,7 +511,7 @@ def _potInt(x,y,z,a2,b2,c2,n,glx=None,glw=None): #TODO ok
     else:
         return numpy.sum(glw*integrand(glx))
 
-def _forceInt(x,y,z,a2,b2,c2,i,n,glx=None,glw=None): #TODO ok
+def _forceInt(x,y,z,a2,b2,c2,i,n,glx=None,glw=None): #TODO ok (+ omegab)
     """Integral that gives the force in x,y,z"""
     def integrand(tau):
         return -(x*(i==0) + y*(i==1) + z*(i==2))/(a2*(i==0) + a2*b2*(i==1) + a2*c2*(i==2) + tau)*_FracInt(x,y,z,a2,b2,c2,tau,n)
@@ -485,7 +521,7 @@ def _forceInt(x,y,z,a2,b2,c2,i,n,glx=None,glw=None): #TODO ok
         return numpy.sum(glw*integrand(glx))
 
 
-def _2ndDerivInt(x,y,z,a2,b2,c2,i,j,n,glx=None,glw=None): #TODO ok
+def _2ndDerivInt(x,y,z,a2,b2,c2,i,j,n,glx=None,glw=None): #TODO ok (+ omegab)
     """Integral that gives the 2nd derivative of the potential in x,y,z"""
     def integrand(tau):
         if i!=j:
