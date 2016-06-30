@@ -171,7 +171,6 @@ class FerrersPotential(Potential):
     def _evaluate_xyz(self,x,y,z=0.): #TODO ok + omegab
         """Evaluation of the potential as a function of (x,y,z) in the 
         aligned coordinate frame"""
-        #x,y = timedep(x,y,self._omegab,t)
         return -1/4/(self.n+1)*self._b*self._c*_potInt(x,y,z,self._a2,self._b2,self._c2,self.n,glx=self._glx,glw=self._glw)
 
     def _Rforce(self,R,z,phi=0.,t=0.):
@@ -306,19 +305,16 @@ class FerrersPotential(Potential):
     def _xforce_xyz(self,x,y,z): #TODO ok + omegab
         """Evaluation of the x force as a function of (x,y,z) in the aligned
         coordinate frame"""
-        #x,y = timedep(x,y,self._omegab,t)
         return 1/2*self._b*self._c*_forceInt(x,y,z,self._a2,self._b2,self._c2,0,self.n,glx=self._glx,glw=self._glw)         
             
     def _yforce_xyz(self,x,y,z): #TODO ok + omegab
         """Evaluation of the y force as a function of (x,y,z) in the aligned
         coordinate frame"""
-        #x,y = timedep(x,y,self._omegab,t)
         return 1/2*self._b*self._c*_forceInt(x,y,z,self._a2,self._b2,self._c2,1,self.n,glx=self._glx,glw=self._glw)  
 
     def _zforce_xyz(self,x,y,z): #TODO ok + omegab
         """Evaluation of the z force as a function of (x,y,z) in the aligned
         coordinate frame"""
-        #x,y = timedep(x,y,self._omegab,t)
         return 1/2*self._b*self._c*_forceInt(x,y,z,self._a2,self._b2,self._c2,2,self.n,glx=self._glx,glw=self._glw)  
 
     def _R2deriv(self,R,z,phi=0.,t=0.):
@@ -459,7 +455,7 @@ class FerrersPotential(Potential):
     def _2ndderiv_xyz(self,x,y,z,i,j): #TODO ok + omegab
         """General 2nd derivative of the potential as a function of (x,y,z)
         in the aligned coordinate frame"""
-        #x,y = timedep(x,y,self._omegab,t)                         
+                         
         return -1/4*self._b*self._c*_2ndDerivInt(x,y,z,self._a2,self._b2,self._c2,i,j,self.n,glx=self._glx,glw=self._glw)
         
     def _dens(self,R,z,phi=0.,t=0.): #TODO ok + omegab
@@ -485,7 +481,6 @@ class FerrersPotential(Potential):
             xyzp= numpy.dot(self._rot,numpy.array([x,y,z]))
             xp, yp, zp= xyzp[0], xyzp[1], xyzp[2]
         #TODO
-        #x,y = timedep(x,y,self._omegab,t)
         m2 = xp**2+yp**2/self._b2+zp**2/self._c2
         return 1/(4*numpy.pi*self.a**3)*(1-m2/self._a2)**self.n
 
@@ -541,8 +536,3 @@ def _2ndDerivInt(x,y,z,a2,b2,c2,i,j,n,glx=None,glw=None): #TODO ok (+ omegab)
 
 def _FracInt(x,y,z,a2,b2,c2,tau,expon): # ok (+ omegab)
     return (1 - x**2/(a2 + tau) - y**2/(a2*b2 + tau) - z**2/(a2*c2 + tau))**expon/numpy.sqrt((a2 + tau)*(a2*b2 + tau)*(a2*c2 + tau))
-'''
-def timedep(x,y, omegab,t): # + omegab
-    phi0 = numpy.arctan2(y, x)
-    return (x*(numpy.cos(phi0 + t*omegab)),y*(numpy.sin(phi0 + t*omegab)))
-'''
