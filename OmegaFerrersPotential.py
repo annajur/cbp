@@ -10,6 +10,7 @@
 import numpy
 import hashlib
 from scipy import integrate, special
+from scipy.optimize import fsolve ###########
 from galpy.util import bovy_conversion, bovy_coords
 from galpy.util import _rotate_to_arbitrary_vector
 from galpy.potential_src.Potential import Potential, _APY_LOADED
@@ -34,7 +35,7 @@ class FerrersPotential(Potential):
     is, the :math:`x` axis after rotating to ``zvec``.
     """
     
-    def __init__(self,amp=1.,a=5.,n=2,b=1.,c=1.,omegab=0.65,
+    def __init__(self,amp=1.,a=1.,n=2,b=0.35,c=0.2375,omegab=0.001,
                  zvec=None,pa=None,glorder=50,
                  normalize=False,ro=None,vo=None):
         """
@@ -481,8 +482,11 @@ class FerrersPotential(Potential):
             xyzp= numpy.dot(self._rot,numpy.array([x,y,z]))
             xp, yp, zp= xyzp[0], xyzp[1], xyzp[2]
         #TODO
-        m2 = xp**2+yp**2/self._b2+zp**2/self._c2
-        return 1/(4*numpy.pi*self.a**3)*(1-m2/self._a2)**self.n
+        m2 = xp**2/self._a2+yp**2/self._b2+zp**2/self._c2
+        if m2 < 1:
+            return 1/(4*numpy.pi*self.a**3)*(1-m2/self.a**2)**self.n #-2*self._omegab**2 #why was this here?!?
+        else:
+            return 0
 
     def OmegaP(self): # + omegab
         """
@@ -506,7 +510,7 @@ def _potInt(x,y,z,a2,b2,c2,n,glx=None,glw=None): #TODO ok (+ omegab)
     def integrand(tau):
         return _FracInt(x,y,z,a2,b2,c2,tau,n + 1)
     if glx is None:
-        return integrate.quad(integrand,0.,numpy.inf)[0]                              
+        return integrate.quad(integrand,lowerlim(x,y,z,a2,b2,c2),numpy.inf)[0]                              
     else:
         return numpy.sum(glw*integrand(glx))
 
@@ -515,13 +519,13 @@ def _forceInt(x,y,z,a2,b2,c2,i,n,glx=None,glw=None): #TODO ok (+ omegab)
     def integrand(tau):
         return -(x*(i==0) + y*(i==1) + z*(i==2))/(a2*(i==0) + a2*b2*(i==1) + a2*c2*(i==2) + tau)*_FracInt(x,y,z,a2,b2,c2,tau,n)
     if glx is None:
-        return integrate.quad(integrand,0.,numpy.inf)[0]                              
+        return integrate.quad(integrand,lowerlim(x,y,z,a2,b2,c2),numpy.inf)[0]                              
     else:
         return numpy.sum(glw*integrand(glx))
 
-
 def _2ndDerivInt(x,y,z,a2,b2,c2,i,j,n,glx=None,glw=None): #TODO ok (+ omegab)
     """Integral that gives the 2nd derivative of the potential in x,y,z"""
+
     def integrand(tau):
         if i!=j:
             return _FracInt(x,y,z,a2,b2,c2,tau,n-1)*n*(1+(-1-2*x/(tau+a2))*(i==0 or j==0))*(1+(-1-2*y/(tau+a2*b2))*(i==1 or j==1))*(1+(-1-2*z/(tau+a2*c2))*(i==2 or j==2))
@@ -530,9 +534,19 @@ def _2ndDerivInt(x,y,z,a2,b2,c2,i,j,n,glx=None,glw=None): #TODO ok (+ omegab)
             coef2 = a2*(i==0) + a2*b2*(i==1) + a2*c2*(i==2)
             return _FracInt(x,y,z,a2,b2,c2,tau,n-1)*n*(4*var2)/(tau+coef2)**2 + _FracInt(x,y,z,a2,b2,c2,tau,n)*(-2/(tau+coef2))
     if glx is None:
-        return integrate.quad(integrand,0.,numpy.inf)[0]
+        return integrate.quad(integrand,lowerlim(x,y,z,a2,b2,c2),numpy.inf)[0]
     else:
         return numpy.sum(glw*integrand(glx))
 
 def _FracInt(x,y,z,a2,b2,c2,tau,expon): # ok (+ omegab)
     return (1 - x**2/(a2 + tau) - y**2/(a2*b2 + tau) - z**2/(a2*c2 + tau))**expon/numpy.sqrt((a2 + tau)*(a2*b2 + tau)*(a2*c2 + tau))
+
+def lowerlim(x,y,z,a2,b2,c2):
+    def func(tau):
+        return x**2/(a2+tau) + y**2/(a2*b2+tau) + z**2/(a2*c2+tau) - 1
+
+    if numpy.sqrt(x**2/a2 + y**2/(a2*b2) + z**2/(a2*c2)) >= 1:
+        #print(numpy.sqrt(x**2/a2 + y**2/(a2*b2) + z**2/(a2*c2)))
+        return fsolve(func,0)[0]
+    else:
+        return 0
