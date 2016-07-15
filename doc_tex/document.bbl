@@ -1,0 +1,19 @@
+\begin{thebibliography}{1}
+
+\bibitem{BinneyTremaine:2008}
+J.~Binney and S.~Tremaine.
+\newblock {\em {G}alactic {D}ynamics}.
+\newblock Princeton University Press, 2nd edition, 2008.
+
+\bibitem{Bovy:2015}
+J.~{Bovy}.
+\newblock {galpy: A python Library for Galactic Dynamics}.
+\newblock {\em \apjs}, 216:29, February 2015.
+
+\bibitem{MachadoManos:2016}
+R.~E.~G. {Machado} and T.~{Manos}.
+\newblock {Chaotic motion and the evolution of morphological components in a
+  time-dependent model of a barred galaxy within a dark matter halo}.
+\newblock {\em \mnras}, 458:3578--3591, June 2016.
+
+\end{thebibliography}
