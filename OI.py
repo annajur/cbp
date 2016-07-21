@@ -17,12 +17,9 @@ if len(sys.argv) != 3:
     print ('Usage: %s DATA, specify both input file containing initial conditions and log file' % (os.path.basename(sys.argv[0])))
     sys.exit(1)
 input_filename = sys.argv[1]
-
-#print(input_filename)
-
 input_file = open(input_filename, 'r')
 dataline = input_file.read().split('\n')
-#print(dataline)
+
 for line in dataline:
     if line != '':
         initc_string = line.split('\t')
@@ -46,37 +43,40 @@ def inrotframe(orbit, ts, potential):
         xrot[i],yrot[i] = np.dot(xy[i],rot(omega, ts[i]))
     return xrot, yrot
 
-pmw = FP(a = 8*units.kpc, b = 0.35, c = 0.2375, normalize = True, omegab = 10.*units.km/units.s/units.kpc)
-
 output_filename = sys.argv[2]
 output_file = open(output_filename, 'w')
+for i in range(len(initc_string)):
+    output_file.write(initc_string[i]+', ')
 
 phi = [i*np.pi/12 for i in range(12)]
 
 initc = [float(initc_string[i]) for i in range(len(initc_string))]
 
+print(initc)
 print('baf')
 
+vxvvs = []
 # ====== setting vR ======
-for i in range(1,3):
-    initc[1] = -0.7+0.05*i
-    vxvvs.append(initc)
+for i in range(4):
+    vR = -0.7+0.05*i
+    output_file.write(str(vR)+', ')
+    tmp = initc[:]
+    tmp[1] = vR
+    vxvvs.append(tmp)
+output_file.close()
 
-# ====== setting vT ======
-#for i in range(1,41):
-#    initc[2] = -0.7+0.05*i
-#    vxvvs.append(initc)
-
-print(vxvvs)
+pmw = FP(a = 8*units.kpc, b = 0.35, c = 0.2375, normalize = True, omegab = 10.*units.km/units.s/units.kpc)
+ts = np.linspace(0,50,1500)
 
 for i in range(len(phi)):
-    initc.append(phi[i])
-    for j in range(1,41):
+    for j in range(len(vxvvs)):
+        vxvvs[j][5] = phi[i]
+        orbit = Orbit(vxvv = vxvvs[j])
         try:
-            orbits[i].integrate(ts, pmw)
-            #orbits[i].plot(d1='x',d2='y', color = 'dodgerblue', overplot = False)
+            orbit.integrate(ts, pmw)
+            #orbit.plot(d1='x',d2='y', color = 'dodgerblue', overplot = False)
             ts = np.linspace(0,50,1000)
-            xr, yr = inrotframe(vxvvs[i],ts,pmw)
+            xr, yr = inrotframe(orbit,ts,pmw)
             plt.plot(xr,yr, c = 'crimson')
             plt.xlabel(r'$x/R_0$', fontsize = 17)
             plt.ylabel(r'$y/R_0$', fontsize = 17)
@@ -90,35 +90,5 @@ for i in range(len(phi)):
         except (RuntimeWarning,FutureWarning,RuntimeError,AttributeError,DeprecationWarning,ZeroDivisionError):
             print('I am sorry, but something went wrong :(')
 
-
-'''
-R = 1
-svxvv = '[R,0.01,0.01,0.,0.,np.pi/2]'
-
-output_file = open('/home/annaj/cbp_usrp/pretty_pictures/in_rot/4/setR/log','w')
-output_file.write(svxvv+'\n'+'R = ')
-
-for i in range(1,41):
-    R = 0.025*i
-    initc.append([R,0.01,0.01,0.,0.,0.]) #np.pi/2])
-    output_file.write(str(R)+', ')
-ts = np.linspace(0,100,2400)  
-output_file.close()
-
-
-'''
-'''
-for i in range(1,21):
-    vR =  -0.2 + 0.02*i
-    initc.append([1.35,vR,0.1,0.,0.,np.pi/4])
-    output_file.write(str(vR)+', ')
-ts = np.linspace(0,100,800)
-output_file.close()
-'''
-'''
-orbits = []
-for i in range(len(initc)):
-    orbits.append(Orbit(vxvv = initc[i]))
-
-
-output_file.close()
+# create submit file, compile script, check where are files saved and if figures are saved as stdout, 
+# and what I can do about output directory
