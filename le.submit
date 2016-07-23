@@ -1,0 +1,11 @@
+universe		= vanilla
+executable		= le.py
+arguments		="icon_$(Process).txt"
+output			= out_$(Process).txt
+log                     = log_$(Process)
+err                     = err_$(Process)
+initialdir		= /u/juranova/usrp/lechaos
+transfer_input_files	= IF_NEEDED
+when_to_transfer_output	= ON_EXIT
+
+queue 3
