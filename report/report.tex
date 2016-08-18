@@ -59,7 +59,7 @@
 
 % Title of the paper, and the short title which is used in the headers.
 % Keep the title short and informative.
-\title[Short title, max. 45 characters]{Chaos in Bar Potential}
+\title[Chaos in Bar Potential]{Chaos in Bar Potential}
 
 % The list of authors, and the short list which is used in the headers.
 % If you need two or more lines of authors, add an extra line using \newauthor
@@ -93,7 +93,7 @@ $^{2}$Department of Astrophysical Sciences, Peyton Hall, Princeton University, 4
 %The abstract should briefly describe the aims, methods, and main results of the paper.
 %It should be a single paragraph not more than 250 words (200 words for Letters).
 %No references should appear in the abstract.\\
-Amount of chaotic motion in graviational potential caused by presence of a galactic bar is closely related to its parameters. Here we aim at quantifying the fraction of chaotic motion as a function of distance from the galactic center, investigating its dependence on the pattern speed and the total mass of the bar. As a model of the bar we use triaxial Ferrers potential, embedded in a composition of a disk, bulge, and dark matter halo models simulating potential of the Milky Way Galaxy. We classify the nature of stellar orbits using Maximum Lyapunov Exponent (MLE) method of chaos detection on a sample of randomly generated orbits within the bar and its close vicinity.\\
+The amount of chaotic motion in gravitational potential caused by the presence of a galactic bar is closely related to its parameters. Here we aim at quantifying the fraction of chaotic motion as a function of distance from the galactic center, investigating its dependence on the pattern speed and the total mass of the bar. As a model of the bar we use triaxial Ferrers potential, embedded in a composition of a disk, bulge, and dark matter halo models simulating potential of the Milky Way Galaxy. We classify the nature of stellar orbits using Maximum Lyapunov Exponent (MLE) method of chaos detection on a sample of randomly generated orbits within the bar and its close vicinity.\\
 
 \end{abstract}
 
@@ -109,11 +109,11 @@ galaxies: structure, galaxies: kinematics and dynamics, methods: numerical
 
 \section{Introduction}
 
-Large fraction of disc galaxies posses a bar in their central regions. (\cite{Spitzgal:2015}) These morphological features are accompanied by chaotic orbits, whose presence is given by a lack of axisymmetry in the gravitational potential caused by bars themselves.(\cite{BinneyTremaine:2008}) Spatial distribution of regions supporting chaotic motion and their properties are closely related to parameters of the potential as shown below.
+A large fraction of disc galaxies possess a bar in their central regions, as can be found in \cite{Spitzgal:2015}. These morphological features are accompanied by chaotic orbits, whose presence is given by a lack of axisymmetry in the gravitational potential caused by bars themselves (\cite{BinneyTremaine:2008}. As shown below, spatial distribution of regions supporting chaotic motion and their properties are closely related to the parameters of the potential.
 
-Studying nature of motion in analytical models can widely contribute to our understanding of potential in our own galaxy. Comparing precise information about position and velocities of stars in inner regions with results from analytical modeling, we can put constraints on form of the potential and its properties. Such information will soon be available from data obtained in GAIA mission.
+Studying nature of motion in analytic models can widely contribute to our understanding of potential in our own galaxy. Comparing precise information about position and velocities of stars in inner regions with results from analytic modeling, we can put constraints on the form of the potential and its properties. Such information will soon be available from data obtained in GAIA mission.
 
-In this work, we focus on the dependence of distribution of chaotic orbits in the bar potential on its pattern speed and the total mass. We examine sample of 4000 orbits at 20 distances from the center of the potential to its boundaries in aim to classify them as either regular or chaotic.
+In this work, we focus on the dependence of a distribution of chaotic orbits in the bar potential on its pattern speed and the total mass. We examine sample of 4000 orbits (4800 orbits in the case of dependence on the mass of the bar) at 20 (24) distances from the center of the potential to its boundaries (and its close vicinity) in the aim to classify them as either regular or chaotic.
 
 \section{Methods and Data}
 
@@ -124,7 +124,7 @@ In this section the model simulating potential of a galaxy is described (Subsect
 \subsection{Analytical model of the potential}
 \label{sec:potential} % used for referring to this section from elsewhere
 
-For purpose of this work, the bar is represented by a model of Ferrers potential (\cite{Ferrers:1877}). Mass density of this triaxial ellipsoid is given by equation:
+For the purpose of this work, the bar is represented by a model of Ferrers potential (\cite{Ferrers:1877}). Mass density of this triaxial ellipsoid is given by equation:
 \begin{equation} \label{eq:Ferdens}
 \rho(\vec{x}) = \left\{
 \begin{array}{l l}
@@ -136,7 +136,7 @@ where $\rho_{c}=\frac{105}{32\pi}\frac{G M_{B}}{abc}$ is the central
 density, $M_{B}$ is the total mass of the bar and
 $m^{2}=\frac{x^{2}}{a^{2}}+\frac{y^{2}}{a^2b^{2}}+\frac{z^{2}}{a^2c^{2}}$,
 \mbox{$a>ab>ac> 0$}, with $a,ab$ and $ac$ representing the semi-principal axes of the ellipsoidal
-bar. Gravitatinal constant $ G $ is set to unity. Potential generated by this mass distribution is:
+bar. Gravitational constant $ G $ is set to unity. Potential generated by this mass distribution is:
 
 \begin{equation}
 	V(\vec{x}) = -\frac{105}{96}G^2\,M_B\,\int_{\lambda}^{\infty} A^{3}(\tau)\,\mathrm{d} \tau
@@ -157,10 +157,10 @@ The analytical expression of the corresponding
 forces is:
 
 \begin{equation}
-	F_i = \frac{105}{96}G^2\,M_B\,\frac{b\,c}{2}\, \int_{\lambda}^{\infty} \frac{x_i}{a_i^2 + \tau} A^{2}(\tau)\,\mathrm{d} \tau
+	F_i = \frac{105}{96}G^2\,M_B\,\frac{b\,c}{2}\, \int_{\lambda}^{\infty} \frac{x_i}{a_i^2 + \tau} A^{2}(\tau)\,\mathrm{d} \tau.
 \end{equation}  
 
-%VZKONTROLOVAT VZORCE
+%CHECK THE EQUATIONS!
 
 \begin{table}
 	\centering
@@ -179,9 +179,7 @@ forces is:
 	\end{tabular}
 \end{table}
 
-The bar potential is embedded in a model of Milky Way galaxy's potential provided in \textit{galpy} package written in Python programming languague (\cite{Bovy:2015}). The Milky Way model is a composition of Miyamoto-Nagai potential (\ref{eq:disk}) for disk \cite{MiyamotoNagai:1975}, NFW profile (\ref{eq:halo}) for dark matter halo \cite{NFW:1996} and exponentially cut off power-law density profile (\ref{eq:bulge}) component for spherical bulge. Parameters of these components are shown in Table \ref{tab:MWpot_params}, further details can be found in \cite{Bovy:2015}.
-
-
+The bar potential is embedded in a model of Milky Way galaxy potential provided in \textit{galpy} package written in Python programming language (\cite{Bovy:2015}). The Milky Way model is a composition of Miyamoto-Nagai potential (\ref{eq:disk}) for disk \cite{MiyamotoNagai:1975}, NFW profile (\ref{eq:halo}) for the dark matter halo \cite{NFW:1996} and exponentially cut-off power-law density profile (\ref{eq:bulge}) component for a spherical bulge. Parameters of these components are shown in Table \ref{tab:MWpot_params}, further details can be found in \cite{Bovy:2015}.
 
 \begin{equation}\label{eq:bulge}
 	\rho_b(r)=\rho_0 \, \left(  \frac{r_0}{r} \right) ^{\alpha} \exp -\left( \frac{r}{r_c} \right)^2
@@ -240,10 +238,9 @@ The bar potential is embedded in a model of Milky Way galaxy's potential provide
 
 \subsection{Chaos detection method}
 \label{sec:chaosdet}
-%method, tool, approach, technique, 
 Various chaos detection methods exist, taking advantage of main differences between regular and chaotic orbits, f.e. frequency diffusion rate described in \cite{APW_SuperFreq:2016} or techniques based on behavior in phase space to be found in \cite{Skokos_GALI:2007,SkokosManos_GALI_SALI:2014}.
 
-Chaos detection method used here belongs to the category mentioned later. The Maximum Lyapunov Exponent (MLE) method is based on a fact that chaotic motion is expressed by exponential divergence of close orbits. Following paragraphs are dedicated to its definition and computation for 3-d.o.f. Hamiltonian function for the motion of a star in a 3 dimensional rotating barred galaxy:
+Chaos detection method used here belongs to the category mentioned later. The Maximum Lyapunov Exponent (MLE) method is based on a fact that chaotic motion is expressed by an exponential divergence of close orbits. Its main advantage among other techniques in this category is its simplicity and lower computational cost. Following paragraphs are dedicated to its definition and computation for 3-d.o.f. Hamiltonian function for the motion of a star in a 3 dimensional rotating barred galaxy:
 \begin{equation}\label{eq:Hamilton}
 	H=\frac{1}{2} (p_{x}^{2}+p_{y}^{2}+p_{z}^{2})+ V(x,y,z,t) -
 	\Omega_B (xp_{y}-yp_{x}).
@@ -298,56 +295,50 @@ $t=0$ and $t>0$ respectively.
 \end{equation}
 
 Examining the evolution of the $ \sigma_i $ in time, we can distinguish between regular and chaotic orbits based on the general trend: for regular motion, the value tends to zero following power law, whereas in the latter case, the value converges to a positive value allowing the deviation vector to increase exponentially.
-%Computation of the Lyapunov exponent in practise?
+%Should I describe computation of the Lyapunov exponent in practise?
 
 \subsection{Data generation and analysis}
 
-To analyze fraction of chaos in our potential, we generated sample of 4000 initial conditions for orbits starting at galactic plane, with uniformly distributed components of velocity vectors. Each subsample constituting of 200 orbits has specific apocentric distance within the bar and is analyzed individually. Orbits are integrated for 20\,Gy using leapfrog integrator described in \cite{BinneyTremaine:2008}, mainly for sufficient conservation of energy.
+To analyze the fraction of chaos in our potential, we generated a sample of 4000 initial conditions for orbits starting at galactic plane, with uniformly distributed components of velocity vectors. Each subsample constituting of 200 orbits has specific apocentric distance within the bar and is analyzed individually. Orbits are integrated for 20\,Gy using leapfrog integrator described in \cite{BinneyTremaine:2008}, mainly for sufficient conservation of energy.
 
-Having finite-time MLEs calculated for each sample, the final classification of orbits is based on the final value of MLE. Sufficiently long integration time allowes using reasonably set treshold value to distinguish between each type. For typical example of chaotic orbit the value differs from the one for regular orbit in order of two magnitudes. Validity of this step was confirmed during visual inspection of the descending trend described in \ref{sec:chaosdet}.
+Having finite-time MLEs calculated for each sample, the final classification of orbits is based on the final value of MLE. Sufficiently long integration time allows using reasonably set threshold value to distinguish between each type. For a typical example of chaotic orbit the value differs from the one for regular orbit in order of two magnitudes. Validity of this step was confirmed during visual inspection of the descending trend described in \ref{sec:chaosdet}.
 %Should I mention that galpy was used for the integration again?
 
 \section{Discussion}
+In this section, we present results of examining the nature of orbits in the potential having different values of total mass and pattern speed. Motion in each potential was tested for 200 orbits per each apocentric radius -- each point in the plot. 
 
 \subsection{Dependence on total mass}
-%PREDELAT VZHLED GRAFU TAK, ABY BYL VHODNY PRO CLANEK
-Chaotic orbits populating sphere at maximal distance being semi-major axis of the ellipsoidal bar was tested for two general cases different in total mass of the bar. Amount of chaos present in 
+Chaotic orbits populating sphere at the maximal distance being 1.2 times semi-major axis of the ellipsoidal bar were tested for two general cases different in the total mass of the bar. The amount of chaos present in potential including the bar of total mass $ 33\times 10^9\, M_{\odot} $ is shown in Fig. \ref{fig:total_mass} along with curve presenting the same for less massive bar ($ M_B = 16.5\,\times 10^9\, M_{\odot} $). As expected, the bar-induced chaoticity is more significant in the former case, where the overall fraction of chaos is approximately 73\,\%, whereas for the latter it is about 10\,\% less. The pattern speed in both cases was set to be $ 10\,\mathrm{km/s/kpc} $. Comparing the results with ones from \cite{MachadoManos:2016}, the amount is rather high with similar parameters of the bar, yet embedded in slightly different potential which stands for remaining morphological features of the galaxy.
 
 \begin{figure}
-	% To include a figure from a file named example.*
 	% Allowable file formats are eps or ps if compiling using latex
 	% or pdf, png, jpg if compiling using pdflatex
-	\includegraphics[width=\columnwidth]{hq_plot}
-	\caption{This is an example figure. Captions appear below each figure.
-		Give enough detail for the reader to understand what they're looking at,
-		but leave detailed discussion to the main body of the text.}
+	\includegraphics[width=\columnwidth]{mass_dep}
+	\caption{Relative amount of chaos shown as a function of distance from the center of the potential model with Ferrers bar rotating at $ \Omega_B = 10.0\,\mathrm{km/s/kpc} $ for two cases, where the total mass of the bar is (a) $ 33 \times 10^9 M_{\odot}$ (red curve); (b) $ 16.5 \times 10^9\,M_{\odot}$ (blue curve), half of the former. $ R_0 = 8\,\mathrm{kpc} $ and is equal to size of semi-major axis of the bar.}
 	\label{fig:total_mass}
 \end{figure}
 
 \subsection{Dependence on pattern speed}
-%PREDELAT VZHLED GRAFU TAK, ABY BYL VHODNY PRO CLANEK
+As $ 10\,\mathrm{km/s/kpc} $ is rather low pattern speed compared to what is expected to be found in the Galaxy, we examined how the situation changes for higher values of $ \Omega_B $. In Fig. \ref{fig:pattern_speed} the fraction of chaoticity as a function of apocentric distance of an object is shown for five pattern speeds starting at $ 10\,\mathrm{km/s/kpc} $ up to angular velocity at which the stars at solar distance corrotate with the bar.
 
-
+The obvious general trend is that the area mostly populated by chaotic orbits in central parts of the bar weakens in favor of chaoticity increase in outer regions. The overall amount of chaos remains practically constant and around 60\,\%. However, there are some observable inconsistencies in the plot, f.e. in case of the curve with pattern speed of $ 23.1\,\mathrm{km/s/kpc} $. The explanation for such discrepancies most probably lies in an insufficient number of orbits tested in the study.
+ 
 \begin{figure}
-	% To include a figure from a file named example.*
 	% Allowable file formats are eps or ps if compiling using latex
 	% or pdf, png, jpg if compiling using pdflatex
-	\includegraphics[width=\columnwidth]{all2}
-	\caption{This is an example figure. Captions appear below each figure.
-		Give enough detail for the reader to understand what they're looking at,
-		but leave detailed discussion to the main body of the text.}
+	\includegraphics[width=\columnwidth]{all3}
+	\caption{Fraction of chaotic orbits presented as a function of radius for potential with the Ferrers bar rotating at different pattern speeds. The maximum speed of $ 27.5\,\mathrm{km/s/kpc} $ is the corrotation velocity of Sun at distance $ R_0 = 8\,\mathrm{kpc} $ ($ v_0(R_0) = 220\,\mathrm{km/s}$). Mass of the bar for all five curves is $ 8.25\times 10^{9}\,\mathrm{M_{\odot}} $.}
 	\label{fig:pattern_speed}
 \end{figure}
 
 
+%\subsection{Figures and tables}
 
-\subsection{Figures and tables}
+%Figures and tables should be placed at logical positions in the text. Don't
+%worry about the exact layout, which will be handled by the publishers.
 
-Figures and tables should be placed at logical positions in the text. Don't
-worry about the exact layout, which will be handled by the publishers.
-
-Figures are referred to as e.g. Fig.~\ref{fig:example_figure}, and tables as
-e.g. Table~\ref{tab:example_table}.
+%Figures are referred to as e.g. Fig.~\ref{fig:example_figure}, and tables as
+%e.g. Table~\ref{tab:example_table}.
 
 % Example figure
 %\begin{figure}
@@ -379,16 +370,25 @@ e.g. Table~\ref{tab:example_table}.
 %\end{table}
 
 
-\section{Conclusions}
+\section{Summary and conclusions}
 
-The last numbered section should briefly summarise what has been done, and describe
-the final conclusions which the authors draw from their work.
+We performed an analysis of stellar motion in a bar potential embedded in central part of a realistic model of a galaxy to explore the amount of chaos present and to describe its dependence on basic properties of the bar potential.
+
+Using Ferrers potential as a model of a galactic bar, we focused on studying the fraction of chaotic motion as a function of apocentric radius of tested orbits and its dependence on total mass and the pattern speed of the bar. For classification of an orbit as either regular or chaotic, we used Maximum Lyapunov Exponent method for being the most convenient for this work, considering computational demands of the orbit integration.
+
+Rather expected overall decrease of chaos when having lower massive bar was measured with confidence. The change of chaotic orbits distribution for varying pattern speed was also obvious from the data, supporting the idea that information obtained when studying these analytical objects can be valuable when giving constraints on the actual form of the potential. However, we should keep in mind that models represented by triaxial ellipsoid are a poor approximation of real shapes of galactic bars.  
+\\
+
+%The last numbered section should briefly summarise what has been done, and describe
+%the final conclusions which the authors draw from their work.
 
 \section*{Acknowledgements}
 
-The Acknowledgements section is not numbered. Here you can thank helpful
-colleagues, acknowledge funding agencies, telescopes and facilities used etc.
-Try to keep it short.
+I would like to express my gratitude to David Spergel and Semyeong Oh for their time and patient guidance throughout this project and to Adrian Price-Whelan for his assistance and helpful advice. I would also like to thank the USRP Organizing Committee for giving me the opportunity to participate in this wonderful summer program and to the Department of Astrophysical Sciences of Princeton University for providing us all the facilities needed for our research.
+ 
+%The Acknowledgements section is not numbered. Here you can thank helpful
+%colleagues, acknowledge funding agencies, telescopes and facilities used etc.
+%Try to keep it short.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
