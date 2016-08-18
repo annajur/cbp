@@ -51,7 +51,7 @@
            $ \mathrm{amp} $ -- Amplitude to be applied to the potential (default: 1); can be a Quantity with units of mass or $ G \times \mathrm{mass} $\\
            $ a $ -- Scale radius (can be Quantity)\\
            $ n $ -- Power of Ferrers density ($ n > 0 $), not necessarilly integer, calculations generally fail for $ n > 4 $\\
-           $ b $ -- y-to-x axis ratio of the density, usually $ b < a $\\
+           $ b $ -- y-to-x axis ratio of the density, usually $ b < 1 $\\
            $ c $ -- z-to-x axis ratio of the density, usually $ c < b $\\
            $ \Omega_b $ -- pattern speed of the bar, $ \vec{\Omega}_b = \hat{e}_z\,\Omega_b $\\
            $ \mathrm{pa} $ -- If set, the initial position angle of the bar in the xy plane measured from x (rad or Quantity)\\
@@ -60,11 +60,11 @@
            Variables $ \alpha $	appearing in the code in form $ \_\alpha2 $ carry the value of $ \alpha^2 $ initialized in the begining of the class \_\_init\_\_ function.
 
 	\section{Functions}
-	(... those I have written so far, except for potential evaluating function itself implemented for rotating potential in an inertial frame of reference in which a bar lies aligned with x axis.)
+	 ...implemented for rotating potential in a frame of reference in which the bar lies aligned with x axis.)
 %	FUNCTIONS	
 		 
 		\subsection{Potential} % POTENTIAL ITSELF
-			Purpose: Evaluation of the bar potential as a function of cartesian coordinates in inertial frame. \\
+			Purpose: Evaluation of the bar potential as a function of cartesian coordinates in corotating frame of reference. \\
    		\begin{equation}
    		\Phi(\vec{x}) = \frac{-\mathrm{amp}\,b\,c}{4(n+1)}\,\int_{\lambda}^{\infty} A^{n+1}(\tau)\,\mathrm{d} \tau
    		\end{equation}
@@ -93,11 +93,11 @@
 		\end{equation*}
 			where
 		\begin{equation}
-		m^2 = x'^2 + \frac{y'^2}{b^2}+\frac{z'^2}{c^2}
+		m^2 = x^2 + \frac{y^2}{b^2}+\frac{z^2}{c^2}
 		\end{equation}
 		
 		\subsection{Force} % FORCE
-			Purpose: Evaluation of the x component of the force as a function of (x,y,z) in the aligned coordinate frame, which is used for evaluation of the force in cylindrical coordinates and then in orbit integration; does not take into account bar's rotation or initial position and therefore shall not be used directly.\\
+			Evaluation of the x component of the force as a function of (x,y,z) in the aligned coordinate frame, which is used for evaluation of the force in cylindrical coordinates and then in orbit integration; does not take into account bar's rotation or initial position and therefore shall not be used directly.\\
    		\begin{equation}
    		F_i = \frac{-\mathrm{amp}\,b\,c}{2}\, \int_{\lambda}^{\infty} \frac{x_i}{a_i^2 + \tau} A^{n}(\tau)\,\mathrm{d} \tau
    		\end{equation}  
@@ -109,15 +109,14 @@
 		
 		% SECOND DERIVATIVE
 		\subsection{General Second Derivative}
-			Purpose: General 2nd derivative of the potential as a function of (x,y,z) in the aligned coordinate frame \\
+			General 2nd derivative of the potential as a function of (x,y,z) in the aligned coordinate frame \\
 		\begin{equation}
 		\Phi_{\mathrm{ij}} = -\frac{1}{4}\,b\,c \,\Phi'_{\mathrm{ij}}	
 		\end{equation}
-	
 		
 		% INTEGRATION FOR SECOND DERIVATIVE	
 		\subsection{Integration for Second Derivative}
-			Purpose: Integral that gives the 2nd derivative of the potential in x,y,z \\
+			Integral that gives the 2nd derivative of the potential in x,y,z \\
 			
 			\noindent The derivative is generally $ \pdv{\Phi}{x_i}{x_j} $; for $ i=j $ the integral to be evaluated is: 
 			
@@ -131,6 +130,33 @@
 		\begin{equation}
 		\Phi'_{\mathrm{ij}} = \int_{\lambda}^{\infty} 
 		\frac{4\,n\,x_i\,x_j}{(\tau + a_i^2)(\tau + a_j^2)} A^{\nu-1}(\tau) \mathrm{d}\tau
+		\end{equation}
+
+	% INERTIAL FRAME	
+		\subsection{Second Derivative in Nonrotating FoR}
+			Transformation of the second derivative into the frame of reference which is corotating with the potential\\
+		\begin{equation}
+			\Phi_{x'x'} = \cos[2](\Omega_b t)\Phi_{xx} - 2 \sin(\Omega_b t) \cos(\Omega_b t)\Phi_{xy} + \sin[2](\Omega_b t)\Phi_{yy}\\
+		\end{equation}
+		
+		\begin{equation}
+			\Phi_{y'y'} = \cos[2](\Omega_b t)\Phi_{yy} + 2 \sin(\Omega_b t) \cos(\Omega_b t)\Phi_{xy} + \sin[2](\Omega_b t)\Phi_{xx}
+		\end{equation}
+		
+		\begin{equation}
+			\Phi_{z'z'} = \Phi_{zz}
+		\end{equation}
+		
+		\begin{equation}
+			\Phi_{x'y'} = [\cos[2](\Omega_b t) - \sin[2](\Omega_b t)]\Phi_{xy} + \sin(\Omega_b t) \cos(\Omega_b t)[\Phi_{xx} - \Phi_{yy}]
+		\end{equation}
+		
+		\begin{equation}
+			\Phi_{x'z'} = \cos(\Omega_b t)\Phi_{xz} - \sin(\Omega_b t) \Phi_{yz}
+		\end{equation}
+		
+		\begin{equation}
+			\Phi_{y'z'} = \cos(\Omega_b t)\Phi_{xz} + \sin(\Omega_b t) \Phi_{yz}
 		\end{equation}	
 
 	%MILKY WAY BAR POTENTIAL
@@ -146,8 +172,6 @@
 			\Omega_b = 10\,km/s/kpc.
 		\end{equation*}
 	
-	
-
 	
 		\nocite{*} % Insert publications even if they are not cited in the poster
 		

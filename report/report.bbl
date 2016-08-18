@@ -1,0 +1,74 @@
+\begin{thebibliography}{}
+\makeatletter
+\relax
+\def\mn@urlcharsother{\let\do\@makeother \do\$\do\&\do\#\do\^\do\_\do\%\do\~}
+\def\mn@doi{\begingroup\mn@urlcharsother \@ifnextchar [ {\mn@doi@}
+  {\mn@doi@[]}}
+\def\mn@doi@[#1]#2{\def\@tempa{#1}\ifx\@tempa\@empty \href
+  {http://dx.doi.org/#2} {doi:#2}\else \href {http://dx.doi.org/#2} {#1}\fi
+  \endgroup}
+\def\mn@eprint#1#2{\mn@eprint@#1:#2::\@nil}
+\def\mn@eprint@arXiv#1{\href {http://arxiv.org/abs/#1} {{\tt arXiv:#1}}}
+\def\mn@eprint@dblp#1{\href {http://dblp.uni-trier.de/rec/bibtex/#1.xml}
+  {dblp:#1}}
+\def\mn@eprint@#1:#2:#3:#4\@nil{\def\@tempa {#1}\def\@tempb {#2}\def\@tempc
+  {#3}\ifx \@tempc \@empty \let \@tempc \@tempb \let \@tempb \@tempa \fi \ifx
+  \@tempb \@empty \def\@tempb {arXiv}\fi \@ifundefined
+  {mn@eprint@\@tempb}{\@tempb:\@tempc}{\expandafter \expandafter \csname
+  mn@eprint@\@tempb\endcsname \expandafter{\@tempc}}}
+
+\bibitem[\protect\citeauthoryear{Binney \& Tremaine}{Binney \&
+  Tremaine}{2008}]{BinneyTremaine:2008}
+Binney J.,  Tremaine S.,  2008, {G}alactic {D}ynamics, 2nd edn.
+Princeton University Press
+
+\bibitem[\protect\citeauthoryear{{Bovy}}{{Bovy}}{2015}]{Bovy:2015}
+{Bovy} J.,  2015, \mn@doi [\apjs] {10.1088/0067-0049/216/2/29}, \href
+  {http://adsabs.harvard.edu/abs/2015ApJS..216...29B} {216, 29}
+
+\bibitem[\protect\citeauthoryear{Buta et~al.,}{Buta
+  et~al.}{2015}]{Spitzgal:2015}
+Buta R.~J.,  et~al., 2015, The Astrophysical Journal Supplement Series, 217, 32
+
+\bibitem[\protect\citeauthoryear{Ferrers}{Ferrers}{1877}]{Ferrers:1877}
+Ferrers N.~M.,  1877
+
+\bibitem[\protect\citeauthoryear{{Machado} \& {Manos}}{{Machado} \&
+  {Manos}}{2016}]{MachadoManos:2016}
+{Machado} R.~E.~G.,  {Manos} T.,  2016, \mn@doi [\mnras]
+  {10.1093/mnras/stw572}, \href
+  {http://adsabs.harvard.edu/abs/2016MNRAS.458.3578M} {458, 3578}
+
+\bibitem[\protect\citeauthoryear{{Miyamoto} \& {Nagai}}{{Miyamoto} \&
+  {Nagai}}{1975}]{MiyamotoNagai:1975}
+{Miyamoto} M.,  {Nagai} R.,  1975, \pasj, \href
+  {http://adsabs.harvard.edu/abs/1975PASJ...27..533M} {27, 533}
+
+\bibitem[\protect\citeauthoryear{{Navarro}, {Frenk}  \& {White}}{{Navarro}
+  et~al.}{1996}]{NFW:1996}
+{Navarro} J.~F.,  {Frenk} C.~S.,   {White} S.~D.~M.,  1996, \mn@doi [\apj]
+  {10.1086/177173}, \href {http://adsabs.harvard.edu/abs/1996ApJ...462..563N}
+  {462, 563}
+
+\bibitem[\protect\citeauthoryear{{Price-Whelan}, {Johnston}, {Valluri},
+  {Pearson}, {K{\"u}pper}  \& {Hogg}}{{Price-Whelan}
+  et~al.}{2016}]{APW_SuperFreq:2016}
+{Price-Whelan} A.~M.,  {Johnston} K.~V.,  {Valluri} M.,  {Pearson} S.,
+  {K{\"u}pper} A.~H.~W.,   {Hogg} D.~W.,  2016, \mn@doi [\mnras]
+  {10.1093/mnras/stv2383}, \href
+  {http://adsabs.harvard.edu/abs/2016MNRAS.455.1079P} {455, 1079}
+
+\bibitem[\protect\citeauthoryear{{Skokos} \& {Manos}}{{Skokos} \&
+  {Manos}}{2014}]{SkokosManos_GALI_SALI:2014}
+{Skokos} C.,  {Manos} T.,  2014, preprint, \href
+  {http://adsabs.harvard.edu/abs/2014arXiv1412.7401S} {} (\mn@eprint {arXiv}
+  {1412.7401})
+
+\bibitem[\protect\citeauthoryear{{Skokos}, {Bountis}  \&
+  {Antonopoulos}}{{Skokos} et~al.}{2007}]{Skokos_GALI:2007}
+{Skokos} C.,  {Bountis} T.~C.,   {Antonopoulos} C.,  2007, \mn@doi [Physica D
+  Nonlinear Phenomena] {10.1016/j.physd.2007.04.004}, \href
+  {http://adsabs.harvard.edu/abs/2007PhyD..231...30S} {231, 30}
+
+\makeatother
+\end{thebibliography}
